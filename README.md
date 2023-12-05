@@ -155,3 +155,14 @@ sudo systemctl daemon-reload
 sudo systemctl enable cascadiad
 sudo systemctl restart cascadiad && sudo journalctl -u cascadiad -fo cat
 ```
+# Delete
+```
+cd $HOME
+sudo systemctl stop cascadiad
+sudo systemctl disable cascadiad
+sudo rm /etc/systemd/system/cascadiad.service
+sudo systemctl daemon-reload
+rm -f $(which cascadiad)
+rm -rf $HOME/.cascadiad
+rm -rf $HOME/cascadia
+```
