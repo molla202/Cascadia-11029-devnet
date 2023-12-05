@@ -1,10 +1,11 @@
 ![image](https://github.com/molla202/Cascadia/assets/91562185/ad3e3dfe-b3dd-46a2-a49f-49a2409d603b)
 
-### Cascadia is a hybrid, layer-1 appchain building incentive layers for distributed networks. As trailblazers of the neo-cybernetic movement, we're committed to developing innovative solutions to web3's problems via social and artificial intelligence. Cascadia seeks to create a unique value proposition by diving deeper than the consensus layer, to explore emergent behaviors and incentive alignment within complex adaptive systems.
+- Cascadia is a hybrid, layer-1 appchain building incentive layers for distributed networks. As trailblazers of the neo-cybernetic movement, we're committed to developing innovative solutions to web3's problems via social and artificial intelligence. Cascadia seeks to create a unique value proposition by diving deeper than the consensus layer, to explore emergent behaviors and incentive alignment within complex adaptive systems.
 
 
 
-### Cascadia's anticipated success can be attributed to the unwavering commitment of over five hundred global contributors. We're immensely proud of our talented and diverse community and are confident that together, we'll redefine what's possible with blockchain technology.
+- Cascadia's anticipated success can be attributed to the unwavering commitment of over five hundred global contributors. We're immensely proud of our talented and diverse community and are confident that together, we'll redefine what's possible with blockchain technology.
+
  * [Twitter](https://twitter.com/CascadiaSystems) 
  * [Discord](https://discord.gg/cascadia)
  * [Website](https://www.cascadia.foundation/)
@@ -12,7 +13,7 @@
  * [Github](https://github.com/CascadiaFoundation)
  * [Telegram](https://t.me/+Tf6pQQSA7IkxNmU5)
  * [Turkish Telegram](https://t.me/CascadiaTR)
-
+ * [Faucet](https://www.cascadia.foundation/faucet)
 
 <table data-full-width="false"><thead><tr><th align="center">Chain-ID</th><th align="center">Latest Version</th><th align="center">Custom Port</th></tr></thead><tbody><tr><td align="center"><mark style="color:orange;">cascadia_11029-1</mark></td><td align="center"><mark style="color:green;">0.1.9</mark></td><td align="center"><mark style="color:yellow;">40</mark></td></tr></tbody></table>
 
