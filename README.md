@@ -39,15 +39,20 @@ go version
 ```
 ## Setup
 ```
-cd $HOME
-curl -L https://github.com/CascadiaFoundation/cascadia/releases/download/v0.1.9/cascadiad -o cascadiad
-sudo chmod u+x cascadiad
+cd $HOME || return
+rm -rf $HOME/cascadia
+git clone https://github.com/cascadiafoundation/cascadia.git
+cd $HOME/cascadia || return
+git checkout v0.1.9
+
+make install
 ```
 
 # Prepare binaries for Cosmovisor
 ```
 mkdir -p $HOME/.cascadiad/cosmovisor/genesis/bin
-mv cascadiad $HOME/.cascadiad/cosmovisor/genesis/bin/
+mkdir -p ~/.cascadiad/cosmovisor/upgrades
+mv ~/go/bin/cascadiad ~/.cascadiad/cosmovisor/genesis/bin
 ```
 # Set vars
 Not: write moniker and wallet name
@@ -106,7 +111,7 @@ curl -s https://raw.githubusercontent.com/molla202/Cascadia-11029-devnet/main/ad
 # Set seeds and peers
 ```
 SEEDS=""
-PEERS="d1ed80e232fc2f3742637daacab454e345bbe475@54.204.246.120:26656,0c96a6c328eb58d1467afff4130ab446c294108c@34.239.67.55:26656"
+PEERS="21ca2712116138429aed3d72422379397c53fa86@65.109.65.248:34656"
 sed -i 's|^seeds *=.*|seeds = "'$SEEDS'"|; s|^persistent_peers *=.*|persistent_peers = "'$PEERS'"|' $HOME/.cascadiad/config/config.toml
 ```
 # Set custom ports in app.toml
