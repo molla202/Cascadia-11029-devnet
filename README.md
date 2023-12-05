@@ -147,7 +147,11 @@ sed -i 's|^prometheus *=.*|prometheus = true|' $HOME/.cascadiad/config/config.to
 ```
 ### Reset and download snapshot
 ```
-.
+cascadiad tendermint unsafe-reset-all --home $HOME/.cascadiad --keep-addr-book
+
+URL=https://snapshots-testnet.stake-town.com/cascadia/cascadia_11029-1_latest.tar.lz4
+curl -L $URL | lz4 -dc - | tar -xf - -C $HOME/.cascadiad
+[[ -f $HOME/.cascadiad/data/upgrade-info.json ]] && cp $HOME/.cascadiad/data/upgrade-info.json $HOME/.cascadiad/cosmovisor/genesis/upgrade-info.json
 ```
 ### Enable and start service
 ```
