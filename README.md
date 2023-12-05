@@ -1,3 +1,25 @@
+![image](https://github.com/molla202/Cascadia/assets/91562185/ad3e3dfe-b3dd-46a2-a49f-49a2409d603b)
+
+### Cascadia is a hybrid, layer-1 appchain building incentive layers for distributed networks. As trailblazers of the neo-cybernetic movement, we're committed to developing innovative solutions to web3's problems via social and artificial intelligence. Cascadia seeks to create a unique value proposition by diving deeper than the consensus layer, to explore emergent behaviors and incentive alignment within complex adaptive systems.
+
+
+
+### Cascadia's anticipated success can be attributed to the unwavering commitment of over five hundred global contributors. We're immensely proud of our talented and diverse community and are confident that together, we'll redefine what's possible with blockchain technology.
+ * [Twitter](https://twitter.com/CascadiaSystems) 
+ * [Discord](https://discord.gg/cascadia)
+ * [Website](https://www.cascadia.foundation/)
+ * [Docs](https://cascadia.gitbook.io/gitbook/)
+ * [Github](https://github.com/CascadiaFoundation)
+ * [Telegram](https://t.me/+Tf6pQQSA7IkxNmU5)
+ * [Turkish Telegram](https://t.me/CascadiaTR)
+
+
+<table data-full-width="false"><thead><tr><th align="center">Chain-ID</th><th align="center">Latest Version</th><th align="center">Custom Port</th></tr></thead><tbody><tr><td align="center"><mark style="color:orange;">cascadia_11029-1</mark></td><td align="center"><mark style="color:green;">0.1.9</mark></td><td align="center"><mark style="color:yellow;">40</mark></td></tr></tbody></table>
+
+> #### Hardware Requirements
+
+<table data-header-hidden data-full-width="false"><thead><tr><th width="247">Hardware Requirements</th><th></th></tr></thead><tbody><tr><td>Minimum</td><td>4CPU 8RAM 100GB</td></tr><tr><td>Recommended</td><td>8CPU 32RAM 200GB</td></tr></tbody></table>
+
 # Update
 ```
 apt update && apt upgrade -y
@@ -14,7 +36,7 @@ echo "export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin" >> $HOME/.bash_profile
 source $HOME/.bash_profile
 go version
 ```
-## setup
+## Setup
 ```
 cd $HOME
 curl -L https://github.com/CascadiaFoundation/cascadia/releases/download/v0.1.9/cascadiad -o cascadiad
@@ -26,7 +48,7 @@ sudo chmod u+x cascadiad
 mkdir -p $HOME/.cascadiad/cosmovisor/genesis/bin
 mv cascadiad $HOME/.cascadiad/cosmovisor/genesis/bin/
 ```
-# set vars
+# Set vars
 Not: write moniker and wallet name
 ```
 echo "export WALLET="wallet"" >> $HOME/.bash_profile
@@ -68,25 +90,25 @@ WantedBy=multi-user.target
 EOF
 ```
 
-# config and init app
+# Config and init app
 ```
 cascadiad config node tcp://localhost:${CASCADIA_PORT}657
 cascadiad config keyring-backend os
 cascadiad config chain-id cascadia_11029-1
 cascadiad init $MONIKER --chain-id cascadia_11029-1
 ```
-# download genesis and addrbook
+# Download genesis and addrbook
 ```
-wget -O $HOME/.cascadiad/config/genesis.json https://testnet-files.itrocket.net/cascadia/genesis.json
-wget -O $HOME/.cascadiad/config/addrbook.json https://testnet-files.itrocket.net/cascadia/addrbook.json
+curl -s https://raw.githubusercontent.com/molla202/Cascadia-11029-devnet/main/genesis.json > $HOME/.cascadiad/config/genesis.json
+curl -s https://raw.githubusercontent.com/molla202/Cascadia-11029-devnet/main/addrbook.json > $HOME/.cascadiad/config/addrbook.json
 ```
-# set seeds and peers
+# Set seeds and peers
 ```
 SEEDS=""
 PEERS="d1ed80e232fc2f3742637daacab454e345bbe475@54.204.246.120:26656,0c96a6c328eb58d1467afff4130ab446c294108c@34.239.67.55:26656"
 sed -i 's|^seeds *=.*|seeds = "'$SEEDS'"|; s|^persistent_peers *=.*|persistent_peers = "'$PEERS'"|' $HOME/.cascadiad/config/config.toml
 ```
-# set custom ports in app.toml
+# Set custom ports in app.toml
 ```
 sed -i.bak -e "s%:1317%:${CASCADIA_PORT}317%g;
 s%:8080%:${CASCADIA_PORT}080%g;
@@ -96,7 +118,7 @@ s%:8545%:${CASCADIA_PORT}545%g;
 s%:8546%:${CASCADIA_PORT}546%g;
 s%:6065%:${CASCADIA_PORT}065%g" $HOME/.cascadiad/config/app.toml
 ```
-# set custom ports in config.toml file
+# Set custom ports in config.toml file
 ```
 sed -i.bak -e "s%:26658%:${CASCADIA_PORT}658%g;
 s%:26657%:${CASCADIA_PORT}657%g;
@@ -105,23 +127,23 @@ s%:26656%:${CASCADIA_PORT}656%g;
 s%^external_address = \"\"%external_address = \"$(wget -qO- eth0.me):${CASCADIA_PORT}656\"%;
 s%:26660%:${CASCADIA_PORT}660%g" $HOME/.cascadiad/config/config.toml
 ```
-# config pruning
+# Config pruning
 ```
 sed -i 's|^pruning *=.*|pruning = "custom"|g' $HOME/.cascadiad/config/app.toml
 sed -i 's|^pruning-keep-recent  *=.*|pruning-keep-recent = "100"|g' $HOME/.cascadiad/config/app.toml
 sed -i 's|^pruning-interval *=.*|pruning-interval = "10"|g' $HOME/.cascadiad/config/app.toml
 sed -i 's|^snapshot-interval *=.*|snapshot-interval = 0|g' $HOME/.cascadiad/config/app.toml
 ```
-# set minimum gas price, enable prometheus and disable indexing
+# Set minimum gas price, enable prometheus and disable indexing
 ```
 sed -i 's|^minimum-gas-prices *=.*|minimum-gas-prices = "0.025aCC"|g' $HOME/.cascadiad/config/app.toml
 sed -i 's|^prometheus *=.*|prometheus = true|' $HOME/.cascadiad/config/config.toml
 ```
-# reset and download snapshot
+# Reset and download snapshot
 ```
 .
 ```
-# enable and start service
+# Enable and start service
 ```
 sudo systemctl daemon-reload
 sudo systemctl enable cascadiad
