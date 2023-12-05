@@ -82,7 +82,7 @@ After=network-online.target
 
 [Service]
 User=$USER
-ExecStart=$(which cosmovisor) run start
+ExecStart=$(which cosmovisor) run start --chain-id cascadia_11029-1
 Restart=on-failure
 RestartSec=10
 LimitNOFILE=65535
