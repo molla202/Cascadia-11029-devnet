@@ -21,12 +21,12 @@
 
 <table data-header-hidden data-full-width="false"><thead><tr><th width="247">Hardware Requirements</th><th></th></tr></thead><tbody><tr><td>Minimum</td><td>4CPU 8RAM 100GB</td></tr><tr><td>Recommended</td><td>8CPU 32RAM 200GB</td></tr></tbody></table>
 
-# Update
+### Update
 ```
 apt update && apt upgrade -y
 apt install curl iptables build-essential git wget jq make gcc nano tmux htop nvme-cli pkg-config libssl-dev libleveldb-dev tar clang bsdmainutils ncdu unzip libleveldb-dev -y
 ```
-# Go
+### Go
 ```
 ver="1.20.3"
 wget "https://golang.org/dl/go$ver.linux-amd64.tar.gz"
@@ -37,7 +37,7 @@ echo "export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin" >> $HOME/.bash_profile
 source $HOME/.bash_profile
 go version
 ```
-## Setup
+### Setup
 ```
 cd $HOME || return
 rm -rf $HOME/cascadia
@@ -48,13 +48,13 @@ git checkout v0.1.9
 make install
 ```
 
-# Prepare binaries for Cosmovisor
+### Prepare binaries for Cosmovisor
 ```
 mkdir -p $HOME/.cascadiad/cosmovisor/genesis/bin
 mkdir -p ~/.cascadiad/cosmovisor/upgrades
 mv ~/go/bin/cascadiad ~/.cascadiad/cosmovisor/genesis/bin
 ```
-# Set vars
+### Set vars
 Not: write moniker and wallet name
 ```
 echo "export WALLET="wallet"" >> $HOME/.bash_profile
@@ -63,17 +63,17 @@ echo "export CASCADIA_CHAIN_ID="cascadia_11029-1"" >> $HOME/.bash_profile
 echo "export CASCADIA_PORT="40"" >> $HOME/.bash_profile
 source $HOME/.bash_profile
 ```
-# Create application symlinks
+### Create application symlinks
 ```
 sudo ln -s $HOME/.cascadiad/cosmovisor/genesis $HOME/.cascadiad/cosmovisor/current -f
 sudo ln -s $HOME/.cascadiad/cosmovisor/current/bin/cascadiad /usr/local/bin/cascadiad -f
 ```
 
-# Download and install Cosmovisor (Install Cosmovisor and create a service)
+### Download and install Cosmovisor (Install Cosmovisor and create a service)
 ```
 go install cosmossdk.io/tools/cosmovisor/cmd/cosmovisor@v1.5.0
 ```
-# Create service
+### Create service
 ```
 sudo tee /etc/systemd/system/cascadiad.service > /dev/null << EOF
 [Unit]
@@ -96,25 +96,25 @@ WantedBy=multi-user.target
 EOF
 ```
 
-# Config and init app
+### Config and init app
 ```
 cascadiad config node tcp://localhost:${CASCADIA_PORT}657
 cascadiad config keyring-backend os
 cascadiad config chain-id cascadia_11029-1
 cascadiad init $MONIKER --chain-id cascadia_11029-1
 ```
-# Download genesis and addrbook
+### Download genesis and addrbook
 ```
 curl -s https://raw.githubusercontent.com/molla202/Cascadia-11029-devnet/main/genesis.json > $HOME/.cascadiad/config/genesis.json
 curl -s https://raw.githubusercontent.com/molla202/Cascadia-11029-devnet/main/addrbook.json > $HOME/.cascadiad/config/addrbook.json
 ```
-# Set seeds and peers
+### Set seeds and peers
 ```
 SEEDS=""
 PEERS="21ca2712116138429aed3d72422379397c53fa86@65.109.65.248:34656"
 sed -i 's|^seeds *=.*|seeds = "'$SEEDS'"|; s|^persistent_peers *=.*|persistent_peers = "'$PEERS'"|' $HOME/.cascadiad/config/config.toml
 ```
-# Set custom ports in app.toml
+### Set custom ports in app.toml
 ```
 sed -i.bak -e "s%:1317%:${CASCADIA_PORT}317%g;
 s%:8080%:${CASCADIA_PORT}080%g;
@@ -124,7 +124,7 @@ s%:8545%:${CASCADIA_PORT}545%g;
 s%:8546%:${CASCADIA_PORT}546%g;
 s%:6065%:${CASCADIA_PORT}065%g" $HOME/.cascadiad/config/app.toml
 ```
-# Set custom ports in config.toml file
+### Set custom ports in config.toml file
 ```
 sed -i.bak -e "s%:26658%:${CASCADIA_PORT}658%g;
 s%:26657%:${CASCADIA_PORT}657%g;
@@ -133,29 +133,29 @@ s%:26656%:${CASCADIA_PORT}656%g;
 s%^external_address = \"\"%external_address = \"$(wget -qO- eth0.me):${CASCADIA_PORT}656\"%;
 s%:26660%:${CASCADIA_PORT}660%g" $HOME/.cascadiad/config/config.toml
 ```
-# Config pruning
+### Config pruning
 ```
 sed -i 's|^pruning *=.*|pruning = "custom"|g' $HOME/.cascadiad/config/app.toml
 sed -i 's|^pruning-keep-recent  *=.*|pruning-keep-recent = "100"|g' $HOME/.cascadiad/config/app.toml
 sed -i 's|^pruning-interval *=.*|pruning-interval = "10"|g' $HOME/.cascadiad/config/app.toml
 sed -i 's|^snapshot-interval *=.*|snapshot-interval = 0|g' $HOME/.cascadiad/config/app.toml
 ```
-# Set minimum gas price, enable prometheus and disable indexing
+### Set minimum gas price, enable prometheus and disable indexing
 ```
 sed -i 's|^minimum-gas-prices *=.*|minimum-gas-prices = "0.025aCC"|g' $HOME/.cascadiad/config/app.toml
 sed -i 's|^prometheus *=.*|prometheus = true|' $HOME/.cascadiad/config/config.toml
 ```
-# Reset and download snapshot
+### Reset and download snapshot
 ```
 .
 ```
-# Enable and start service
+### Enable and start service
 ```
 sudo systemctl daemon-reload
 sudo systemctl enable cascadiad
 sudo systemctl restart cascadiad && sudo journalctl -u cascadiad -fo cat
 ```
-# Delete
+### Delete
 ```
 cd $HOME
 sudo systemctl stop cascadiad
